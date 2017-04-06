@@ -5,29 +5,34 @@ createTODOAddin <- function() {
   ui <- miniPage(
     gadgetTitleBar("Todo Builder"),
     miniContentPanel(
-      
       tableOutput(outputId = "todo_output")
     )
   )
   
   server <- function(input, output, session) {
     current_document <- rstudioapi::getActiveDocumentContext()
-    document_content <- trimws(current_document$content)
+    document_content <- trimws(current_document$contents)
     
     todo_tags <- find_TODO_tags(document_content)
     lines_with_tag <- document_content[todo_tags]
-    todo_topics <- purrr::map(todo_tags, function(x) {
+    todo_topics <- purrr::map(lines_with_tag, function(x) {
       get_topic_from_tag(x)
     }) %>% 
       purrr::flatten_chr()
     
-    todo_messages <- purrr::map(todo_tags, function(x) {
+    todo_messages <- purrr::map(lines_with_tag, function(x) {
       get_message_from_tag(x)
     }) %>% 
       purrr::flatten_chr()
     
     output$todo_output <- renderTable({
-      data.frame(todo_topics=todo_topics, todo_messages=todo_messages)
+      tibble::tibble(`Line Number` = todo_tags,
+                 `TODO Topic` = todo_topics,
+                 `Message` = todo_messages)
+    })
+    
+    observeEvent(input$done, {
+      invisible(stopApp())
     })
   }
   
