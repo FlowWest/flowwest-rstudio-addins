@@ -1,0 +1,4 @@
+Name: Create TODOs
+Description: Populate a list of todos from a given script
+Binding: createTODOAddin
+Interactive: true
