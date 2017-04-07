@@ -9,5 +9,5 @@ Imports:
     shiny (>= 0.13),
     miniUI (>= 0.1.1),
     rstudioapi (>= 0.4)
-License: MIT 
+License: MIT + file LICENSE
 RoxygenNote: 6.0.1
