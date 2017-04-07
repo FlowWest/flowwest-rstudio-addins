@@ -5,7 +5,8 @@ createTODOAddin <- function() {
   ui <- miniPage(
     gadgetTitleBar("Todo Builder"),
     miniContentPanel(
-      tableOutput(outputId = "todo_output")
+      tableOutput(outputId = "todo_output"),
+      actionButton("download_todo", "Download Todo")
     )
   )
   
